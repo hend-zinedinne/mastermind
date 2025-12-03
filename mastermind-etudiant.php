@@ -140,8 +140,6 @@ for ($tentative = 1; $tentative <= MAX_TENTATIVES; $tentative++) {
         $historiquePlateauIndices[$tentative - 1] .= PION_MAL_PLACE . " ";
     }
 
-    print_r($historiquePlateauIndices);
-
     // -------------------------------------------------------------------------------
     // 3.3. BLOC D'AFFICHAGE ET GESTION DE LA FIN DE PARTIE
     // -------------------------------------------------------------------------------
