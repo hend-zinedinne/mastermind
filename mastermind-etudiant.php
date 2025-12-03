@@ -98,18 +98,21 @@ for ($tentative = 1; $tentative <= MAX_TENTATIVES; $tentative++) {
     // On utilise un simple "for" pour comparer position par position.
 
     foreach ($initialesPropositionJoueur as $index => $initiale) {
-        if (in_array($initiale, $combinaisonSecrete)) {
-            if ($initiale == $combinaisonSecrete[$index]) {
-                $bienPlace++;
+        if ($initiale == $combinaisonSecrete[$index]) {
 
-                // ÉTAPE 2 : CALCUL DES MAL PLACÉ (Pions Blancs ⚪)
-                // On compare les éléments non NULL restants.
+            $bienPlace++;
+            $secreteTravail[$index] = NULL;
 
-            } else {
-                $malPlace++;
-            }
+            // ÉTAPE 2 : CALCUL DES MAL PLACÉ (Pions Blancs ⚪)
+            // On compare les éléments non NULL restants.
+
+        } else if (in_array($initiale, $secreteTravail)) {
+
+            $malPlace++;
+
         }
     }
+
 
     // -------------------------------------------------------------------------------
     // 3.3. BLOC D'AFFICHAGE ET GESTION DE LA FIN DE PARTIE
@@ -134,11 +137,11 @@ for ($tentative = 1; $tentative <= MAX_TENTATIVES; $tentative++) {
 
     for ($nombreIndicesBienPlace = 1; $nombreIndicesBienPlace <= $bienPlace; $nombreIndicesBienPlace++) {
         echo CLE_BIEN_PLACE, " ";
+
     }
     for ($nombreIndicesMalPlace = 1; $nombreIndicesMalPlace <= $malPlace; $nombreIndicesMalPlace++) {
         echo PION_MAL_PLACE, " ";
     }
-
 
     if ($initialesPropositionJoueur == $combinaisonSecrete) {
         $victoire = true;
@@ -164,9 +167,9 @@ if ($victoire) {
     echo "😭 DOMMAGE ! Vous avez atteint la limite de 12 tentatives.", PHP_EOL;
 }
 echo "La combinaison secrète était : ";
-foreach ($initialesPropositionJoueur as $index => $initiale) {
+foreach ($combinaisonSecrete as $index => $initiale) {
     foreach ($emojisCouleurs as $indexEmoji => $emoji)
-        if ($initiale == $initialesCouleurs[$indexEmoji]) {
+        if ($combinaisonSecrete[$index] == $initialesCouleurs[$indexEmoji]) {
             echo $emoji, " ";
         }
 }
