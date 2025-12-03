@@ -162,7 +162,7 @@ echo PHP_EOL;
 
 echo "================================================================", PHP_EOL;
 if ($victoire) {
-    echo "🎉 FÉLICITATIONS ! Vous avez trouvé la combinaison secrète en $nombreTotalTentatives tentatives !";
+    echo "🎉 FÉLICITATIONS ! Vous avez trouvé la combinaison secrète en $nombreTotalTentatives tentatives !", PHP_EOL;
 } else {
     echo "😭 DOMMAGE ! Vous avez atteint la limite de 12 tentatives.", PHP_EOL;
 }
