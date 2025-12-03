@@ -22,6 +22,10 @@ $propositionJoueur = '';
 $initialesPropositionJoueur = [];
 $nombreTotalTentatives = 0;
 $valide = false;
+$historiquePlateauPropositions = [];
+$tempHistoriquePropositions;
+$historiquePlateauIndices = [];
+$tempHistoriqueIndices = [];
 
 echo "
 ================================================================
@@ -113,6 +117,30 @@ for ($tentative = 1; $tentative <= MAX_TENTATIVES; $tentative++) {
         }
     }
 
+    $tempHistoriquePropositions = str_split($propositionJoueur);
+
+    $historiquePlateauPropositions[] = "$tentative.";
+
+    foreach ($tempHistoriquePropositions as $index => $initialePlateauPropositions) {
+        foreach ($emojisCouleurs as $indexEmoji => $emoji) {
+            if ($initialePlateauPropositions == $initialesCouleurs[$indexEmoji]) {
+                $historiquePlateauPropositions[$tentative - 1] .= "$emoji ";
+            }
+        }
+    }
+
+    $historiquePlateauIndices[] = " ";
+
+
+    for ($nombreIndicesBienPlace = 1; $nombreIndicesBienPlace <= $bienPlace; $nombreIndicesBienPlace++) {
+        $historiquePlateauIndices[$tentative - 1] .= CLE_BIEN_PLACE . " ";
+    }
+
+    for ($nombreIndicesMalPlace = 1; $nombreIndicesMalPlace <= $malPlace; $nombreIndicesMalPlace++) {
+        $historiquePlateauIndices[$tentative - 1] .= PION_MAL_PLACE . " ";
+    }
+
+    print_r($historiquePlateauIndices);
 
     // -------------------------------------------------------------------------------
     // 3.3. BLOC D'AFFICHAGE ET GESTION DE LA FIN DE PARTIE
@@ -120,28 +148,23 @@ for ($tentative = 1; $tentative <= MAX_TENTATIVES; $tentative++) {
 
     // Affichage de la proposition du joueur en emojis
 
-    echo "Proposition : ";
+    echo "--- Plateau de jeu ---", PHP_EOL;
+    echo "-------------------------------------------------------------------------------";
 
-    foreach ($initialesPropositionJoueur as $index => $initiale) {
-        foreach ($emojisCouleurs as $indexEmoji => $emoji)
-            if ($initiale == $initialesCouleurs[$indexEmoji]) {
-                echo $emoji, " ";
-            }
+    // foreach ($initialesPropositionJoueur as $index => $initiale) {
+    //     foreach ($emojisCouleurs as $indexEmoji => $emoji) {
+    //         if ($initiale == $initialesCouleurs[$indexEmoji]) {
+    //             echo $emoji, " ";
+    //         }
+    //     }
+    // }
+
+    foreach ($historiquePlateauPropositions as $index => $tentativePrecedente) {
+        echo PHP_EOL, "$tentativePrecedente |" . $historiquePlateauIndices[$index];
     }
-
-    echo PHP_EOL;
 
     // Affichage des indices
 
-    echo "Indices     : ";
-
-    for ($nombreIndicesBienPlace = 1; $nombreIndicesBienPlace <= $bienPlace; $nombreIndicesBienPlace++) {
-        echo CLE_BIEN_PLACE, " ";
-
-    }
-    for ($nombreIndicesMalPlace = 1; $nombreIndicesMalPlace <= $malPlace; $nombreIndicesMalPlace++) {
-        echo PION_MAL_PLACE, " ";
-    }
 
     if ($initialesPropositionJoueur == $combinaisonSecrete) {
         $victoire = true;
@@ -149,6 +172,8 @@ for ($tentative = 1; $tentative <= MAX_TENTATIVES; $tentative++) {
     } else {
         $nombreTotalTentatives++;
     }
+
+    echo PHP_EOL, "-------------------------------------------------------------------------------", PHP_EOL;
 
 } // Fin de la boucle principale
 
